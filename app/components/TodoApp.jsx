@@ -15,20 +15,21 @@ var TodoApp = React.createClass({
             todos: TodosApi.getTodo()
         }
     },
-    componentDidUpdate: function() {
+    componentDidUpdate: function () {
         TodosApi.setTodo(this.state.todos)
     },
     handleToggle: function (id) {
-        let updatedTodos = this.state.todos.map(todo => {
-            if(todo.id === id) {
-                todo.completed = !todo.completed;
-                todo.completedAt = todo.completed ? moment().unix() : undefined;
-            }
-            return todo;
-        })
-        this.setState({
-            todos: updatedTodos
-        })
+        let updatedTodos = this
+            .state
+            .todos
+            .map(todo => {
+                if (todo.id === id) {
+                    todo.completed = !todo.completed;
+                    todo.completedAt = todo.completed ? moment().unix() : undefined;
+                }
+                return todo;
+            })
+        this.setState({todos: updatedTodos})
     },
     handleAddTodo: function (task) {
         this.setState({
@@ -44,16 +45,26 @@ var TodoApp = React.createClass({
         })
     },
     handleSearch: function (searchText, showCompleted) {
-        this.setState({searchText: searchText.toLowerCase(), showCompleted: showCompleted});
+        this.setState({
+            searchText: searchText.toLowerCase(),
+            showCompleted: showCompleted
+        });
     },
     render: function () {
         var {todos, showCompleted, searchText} = this.state;
         let filteredTodos = TodosApi.filterTodos(todos, showCompleted, searchText);
         return (
             <div>
-                <TodoSearch handleSearch={this.handleSearch}></TodoSearch>
-                <TodoList todos={filteredTodos} onToggle={this.handleToggle}></TodoList>
-                <AddTodo handleAddTodo={this.handleAddTodo}></AddTodo>
+                <h1 className="page-title">Todo App</h1>
+                <div className="row">
+                    <div className="columns small-centered small-11 medium-6 large-4">
+                        <div className="container">
+                            <TodoSearch handleSearch={this.handleSearch}></TodoSearch>
+                            <TodoList todos={filteredTodos} onToggle={this.handleToggle}></TodoList>
+                            <AddTodo handleAddTodo={this.handleAddTodo}></AddTodo>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
