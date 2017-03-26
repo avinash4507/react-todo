@@ -52,4 +52,43 @@ describe('TodosApi', () => {
             expect(expectedTodo).toEqual(todo);
         })
     });
+
+    describe('filterTodos', () => {
+        let todos = [
+            {
+                id: 1,
+                task: 'some text here',
+                completed: true
+            }, {
+                id: 2,
+                task: 'other text here',
+                completed: false
+            }, {
+                id: 3,
+                task: 'some text here',
+                completed: true
+            }
+        ];
+        it('should return all todos if showCompleted is true', () => {
+            let expectedTodos = TodosApi.filterTodos(todos, true, '');
+            expect(expectedTodos.length).toBe(3);
+        });
+        it('should not return all todos if showCompleted is false', () => {
+            let expectedTodos = TodosApi.filterTodos(todos, false, '');
+            expect(expectedTodos.length).toBe(1);
+        });
+        it('should sort by completed status', () => {
+            let expectedTodos = TodosApi.filterTodos(todos, true, '');
+            expect(expectedTodos[0].completed).toBe(false);
+        });
+        it('should filter todos by search text', () => {
+            let expectedTodos = TodosApi.filterTodos(todos, true, 'OTHER');
+            expect(expectedTodos.length).toBe(1);
+        });
+        it('should return all todos if search text is empty', () => {
+            let expectedTodos = TodosApi.filterTodos(todos, true, '');
+            expect(expectedTodos.length).toBe(3);
+        });
+        
+    })
 })
