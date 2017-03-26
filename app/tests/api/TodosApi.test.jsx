@@ -82,7 +82,7 @@ describe('TodosApi', () => {
             expect(expectedTodos[0].completed).toBe(false);
         });
         it('should filter todos by search text', () => {
-            let expectedTodos = TodosApi.filterTodos(todos, true, 'OTHER');
+            let expectedTodos = TodosApi.filterTodos(todos, true, 'other');
             expect(expectedTodos.length).toBe(1);
         });
         it('should return all todos if search text is empty', () => {
